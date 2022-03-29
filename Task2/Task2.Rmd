@@ -1,0 +1,46 @@
+---
+title: "Task 2"
+author: "Mirka Monzon, Daniela Villamar, Alexa Bravo"
+date: "28/03/2022"
+output: 
+  html_document:
+    code_folding: hide
+    word_document: default
+    pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Mixture-Models
+
+#### 1. Seleccione el número de clusters que mejor se adapte al dataset. Justifique su elección
+
+```{r}
+data <- read.csv("./minute_weather.csv")
+dataset <- subset(data, select = -c(rowID,hpwren_timestamp, rain_accumulation, rain_duration))
+summary(dataset) #Mezcla Gaussiana
+
+datosClustering <- dataset[,c(1,2,9)]
+wss <- (nrow(datosClustering[,1:3])-1)*sum(apply(datosClustering[,1:3],2,var))
+for (i in 2:10) 
+  wss[i] <- sum(kmeans(datosClustering[,1:3], centers=i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+
+```
+Como podemos ver en la grafica del codo, se obtuvo que para las variables seleccionadas, air_pressure, air_temp y relative_humidity, se obtuvo que el mejor numero de clusters seria de 2. 
+
+#### 2. Muestre al menos una gráfica que muestre cómo se dividen los clusters seleccionados
+
+```{r}
+library(mclust)
+
+mc<-Mclust(datosClustering[,1:3],2)
+plot(mc, what = "classification", main="MClust Classification")
+datosClustering$mxGau<-mc$classification
+g1PMC<-datosClustering[datosClustering$mxGau==1,]
+g2PMC<-datosClustering[datosClustering$mxGau==2,]
+g3PMC<-datosClustering[datosClustering$mxGau==3,]
+
+```
