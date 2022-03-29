@@ -14,3 +14,4 @@ Link Documento de Google Drive:
 https://docs.google.com/document/d/1pipEPYmSpl299v0fzEXQXbLzopeyRi4G0ppDyWTYm0s/edit?usp=sharing
 
 Link Video:
+https://youtu.be/lP38NdrfEzI
